@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PubMatic Onboarding Validator</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Open Sans"', 'sans-serif'],
+          },
+          colors: {
+            pubmatic: {
+              blue: '#0072CE', navy: '#002E5D', teal: '#00A5E0', gray: '#F5F7FA', border: '#E0E0E0', text: '#333333', lightBlue: '#F0F7FF',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script type="text/javascript">
+    var PWT = {}; //Initialize Namespace
+    var googletag = googletag || {};
+    googletag.cmd = googletag.cmd || [];
+    var gptRan = false;
+    PWT.jsLoaded = function () { //PubMatic pwt.js on load callback is used to load GPT
+      loadGPT();
+    };
+    var loadGPT = function () {
+      // Check the gptRan flag
+      if (!gptRan) {
+        gptRan = true;
+        var gads = document.createElement('script');
+        var useSSL = 'https:' == document.location.protocol;
+        gads.src = (useSSL ? 'https:' : 'http:') + '//securepubads.g.doubleclick.net/tag/js/gpt.js';
+        var node = document.getElementsByTagName('script')[0];
+        node.parentNode.insertBefore(gads, node);
+      }
+    };
+    // Failsafe to call gpt
+    setTimeout(loadGPT, 500);
+  </script>
+  <script type="text/javascript">
+    (function () {
+      var purl = window.location.href;
+      var url = '//ads.pubmatic.com/AdServer/js/pwt/161392/19255';
+      var profileVersionId = '';
+      if (purl.indexOf('pwtv=') > 0) {
+        var regexp = /pwtv=(.*?)(&|$)/g;
+        var matches = regexp.exec(purl);
+        if (matches.length >= 2 && matches[1].length > 0) {
+          profileVersionId = '/' + matches[1];
+        }
+      }
+      var wtads = document.createElement('script');
+      wtads.async = true;
+      wtads.type = 'text/javascript';
+      wtads.src = url + profileVersionId + '/pwt.js';
+      var node = document.getElementsByTagName('script')[0];
+      node.parentNode.insertBefore(wtads, node);
+    })();
+  </script>
+  <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js" crossorigin="anonymous"></script>
+
+  <script>
+    window.googletag = window.googletag || { cmd: [] };
+
+    googletag.cmd.push(function () {
+
+      // --- 1. Top Leaderboard ---
+      googletag.defineSlot('/15671365/sammi_test_Top_Leaderboard', [[728, 90], [970, 90], [970, 250]], 'div-gpt-ad-1765264736790-0').addService(googletag.pubads());
+
+      // --- 2. Sidebar ---
+      googletag.defineSlot('/15671365/Sidebar_Skyscraper', [[300, 600], [160, 600], [300, 250]], 'div-gpt-ad-1765264693974-0').addService(googletag.pubads());
+
+      // --- 3. Video ---
+      googletag.defineSlot('/15671365/In-Stream_Video', [640, 360], 'div-gpt-ad-1765264565617-0').addService(googletag.pubads());
+
+      googletag.pubads().enableSingleRequest();
+      googletag.enableServices();
+    });
+  </script>
+
+  <style>
+    body {
+      background-color: #F5F7FA;
+      color: #333333;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #002E5D;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #004b8d;
+      border-radius: 3px;
+    }
+  </style>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+      "react/": "https://aistudiocdn.com/react@^19.2.1/",
+      "react": "https://aistudiocdn.com/react@^19.2.1",
+      "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.10.1",
+      "lucide-react": "https://aistudiocdn.com/lucide-react@^0.556.0"
+    }
+  }
+  </script>
+  <link rel="stylesheet" href="/index.css">
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+
+</html>

@@ -1,0 +1,5 @@
+{
+  "name": "PubMatic Validator Dashboard",
+  "description": "Internal onboarding validator and integration testing dashboard for Publisher Development and Solution Engineering teams.",
+  "requestFramePermissions": []
+}
