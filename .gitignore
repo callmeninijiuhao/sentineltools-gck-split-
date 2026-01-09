@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 deploy.sh
 *.pem
+
+CHANGELOG.md
