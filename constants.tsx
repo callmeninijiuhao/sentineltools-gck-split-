@@ -1,7 +1,7 @@
-import { 
-  LayoutDashboard, 
-  ShieldCheck, 
-  BarChart3, 
+import {
+  LayoutDashboard,
+  ShieldCheck,
+  BarChart3,
   Network
 } from 'lucide-react';
 import { NavItem } from './types';
@@ -36,9 +36,9 @@ export const NAV_STRUCTURE: NavItem[] = [
     label: 'CUSTOMER SUCCESS',
     children: [
       {
-        id: 'ad-opt-tool',
-        label: 'Ad Optimization Tool',
-        path: '/ad-optimization',
+        id: 'troubleshooter',
+        label: 'Troubleshooter',
+        path: '/troubleshooter',
         icon: BarChart3
       }
     ]

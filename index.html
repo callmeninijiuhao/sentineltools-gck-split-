@@ -28,88 +28,8 @@
       }
     }
   </script>
-  <script type="text/javascript">
-    var PWT = {}; //Initialize Namespace
-    var googletag = googletag || {};
-    googletag.cmd = googletag.cmd || [];
-    var gptRan = false;
-    PWT.jsLoaded = function () { //PubMatic pwt.js on load callback is used to load GPT
-      loadGPT();
-    };
-    var loadGPT = function () {
-      // Check the gptRan flag
-      if (!gptRan) {
-        gptRan = true;
-        var gads = document.createElement('script');
-        var useSSL = 'https:' == document.location.protocol;
-        gads.src = (useSSL ? 'https:' : 'http:') + '//securepubads.g.doubleclick.net/tag/js/gpt.js';
-        var node = document.getElementsByTagName('script')[0];
-        node.parentNode.insertBefore(gads, node);
-      }
-    };
-    // Failsafe to call gpt
-    setTimeout(loadGPT, 500);
-  </script>
-  <script type="text/javascript">
-    (function () {
-      var purl = window.location.href;
-      var url = '//ads.pubmatic.com/AdServer/js/pwt/161392/19255';
-      var profileVersionId = '';
-      if (purl.indexOf('pwtv=') > 0) {
-        var regexp = /pwtv=(.*?)(&|$)/g;
-        var matches = regexp.exec(purl);
-        if (matches.length >= 2 && matches[1].length > 0) {
-          profileVersionId = '/' + matches[1];
-        }
-      }
-      var wtads = document.createElement('script');
-      wtads.async = true;
-      wtads.type = 'text/javascript';
-      wtads.src = url + profileVersionId + '/pwt.js';
-      var node = document.getElementsByTagName('script')[0];
-      node.parentNode.insertBefore(wtads, node);
-    })();
-  </script>
-  <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js" crossorigin="anonymous"></script>
 
-  <script>
-    window.googletag = window.googletag || { cmd: [] };
 
-    googletag.cmd.push(function () {
-
-      // --- 1. Top Leaderboard ---
-      googletag.defineSlot('/15671365/sammi_test_Top_Leaderboard', [[728, 90], [970, 90], [970, 250]], 'div-gpt-ad-1765264736790-0').addService(googletag.pubads());
-
-      // --- 2. Sidebar ---
-      googletag.defineSlot('/15671365/Sidebar_Skyscraper', [[300, 600], [160, 600], [300, 250]], 'div-gpt-ad-1765264693974-0').addService(googletag.pubads());
-
-      // --- 3. Video ---
-      googletag.defineSlot('/15671365/In-Stream_Video', [640, 360], 'div-gpt-ad-1765264565617-0').addService(googletag.pubads());
-
-      googletag.pubads().enableSingleRequest();
-      googletag.enableServices();
-    });
-  </script>
-
-  <style>
-    body {
-      background-color: #F5F7FA;
-      color: #333333;
-    }
-
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: #002E5D;
-    }
-
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #004b8d;
-      border-radius: 3px;
-    }
-  </style>
 
   <script type="importmap">
   {
@@ -122,7 +42,7 @@
     }
   }
   </script>
-  <link rel="stylesheet" href="/index.css">
+
 </head>
 
 <body>
