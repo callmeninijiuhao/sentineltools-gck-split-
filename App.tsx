@@ -2,7 +2,6 @@ import React from 'react';
 import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { NAV_STRUCTURE } from './constants';
 import { Sidebar } from './components/Sidebar';
-import { PubOnboardingValidator } from './pages/PubOnboardingValidator';
 import { SellerDomainShooter } from './pages/Troubleshooter';
 
 <h1>Validator Dashboard (v2.0)</h1>
@@ -66,8 +65,7 @@ const InnerLayout: React.FC = () => {
         {/* Page Content */}
         <main className="p-8 flex-1 overflow-x-hidden">
           <Routes>
-            <Route path="/" element={<PubOnboardingValidator />} />
-            <Route path="/seller-domain-shooter" element={<SellerDomainShooter />} />
+            <Route path="/" element={<SellerDomainShooter />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
