@@ -56,7 +56,8 @@ export const fetchTextWithFallback = async (targetUrl: string): Promise<string> 
 
     for (const strategy of shuffledProxies) {
         try {
-            await delay(200 + Math.random() * 800);
+            // Reduced jitter for faster fallback when direct fetch fails
+            await delay(50 + Math.random() * 150);
             const proxyUrl = strategy.getUrl(targetUrl);
 
             // Add Origin header to satisfy some proxies that check it
@@ -454,7 +455,8 @@ export const analyzeUrl = async (rawInput: string): Promise<CrawlerResult> => {
     console.log(`Total apps found: ${appUrlsToProcess.length}`);
 
     // --- Step 4: Process Apps in Batches ---
-    const processedApps = await processInBatches(appUrlsToProcess, 5, async (storeUrl) => {
+    // Increased concurrency from 5 to 8 for faster processing
+    const processedApps = await processInBatches(appUrlsToProcess, 8, async (storeUrl) => {
         try {
             const appDoc = await fetchPage(storeUrl);
 

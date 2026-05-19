@@ -22,6 +22,7 @@ import {
   ListOrdered,
   ShieldCheck
 } from 'lucide-react';
+import { FeedbackButton } from '../components/FeedbackButton';
 
 interface EmailVariables {
   sdkName: string;
@@ -129,8 +130,7 @@ You may find they have more titles in the developer profiles however only reques
 
 Could you kindly advise based on above?
 
-Many thanks,
-Bob`;
+Many thanks`;
       setEmailDraft(template);
     }
   }, [variables, result]);
@@ -241,6 +241,8 @@ Bob`;
           )}
         </div>
       </div>
+
+      <FeedbackButton />
 
       {/* Results Section */}
       {result && loadingState === 'complete' && (

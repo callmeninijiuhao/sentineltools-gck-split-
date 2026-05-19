@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
+import { FeedbackButton } from '../components/FeedbackButton';
 import { fetchSellersJson, searchBSellers, SellerResult } from '../services/sellerService';
 
 export const SellerDomainShooter: React.FC = () => {
@@ -93,6 +94,8 @@ export const SellerDomainShooter: React.FC = () => {
                     </div>
                 </div>
             </div>
+
+            <FeedbackButton />
 
             <div className="space-y-8">
 
