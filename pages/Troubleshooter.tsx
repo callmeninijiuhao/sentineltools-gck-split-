@@ -76,7 +76,7 @@ export const SellerDomainShooter: React.FC = () => {
                                 Purpose
                             </h3>
                             <p className="text-sm text-gray-600 leading-relaxed">
-                                Quickly determine whether a specific publisher or developer entity is listed inside a competitor's <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">sellers.json</code> file. This helps troubleshoot domain mismatches, verify supply path transparency, and identify indirect inventory sources during onboarding or competitive analysis.
+                                Quickly determine whether a specific publisher or developer entity is listed inside a competitor's <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">sellers.json</code> file. This is especially useful when a demand-side platform (e.g., TTD) has blocked a seller domain, yet the same bundle or app inventory is still being transacted through other intermediaries — indicating the publisher may remain active under a different seller ID or domain within another competitor's file. This helps troubleshoot domain mismatches, verify supply path transparency, and identify indirect inventory sources during onboarding or competitive analysis.
                             </p>
                         </div>
                         <div>
