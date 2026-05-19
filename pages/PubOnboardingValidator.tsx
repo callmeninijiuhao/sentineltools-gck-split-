@@ -17,7 +17,10 @@ import {
   Copy,
   Check,
   Settings,
-  RefreshCw
+  RefreshCw,
+  Target,
+  ListOrdered,
+  ShieldCheck
 } from 'lucide-react';
 
 interface EmailVariables {
@@ -153,6 +156,37 @@ Bob`;
         <div className="flex items-center space-x-2 text-sm text-gray-400 bg-white px-3 py-1.5 rounded-full border border-gray-200 shadow-sm">
             <Info size={14} />
             <span>Supported: Store URL, Bundle ID (Android), App ID (iOS)</span>
+        </div>
+      </div>
+
+      {/* Info Card */}
+      <div className="bg-white rounded-xl shadow-card border border-pubmatic-border overflow-hidden">
+        <div className="p-1 bg-gradient-to-r from-pubmatic-blue via-pubmatic-teal to-pubmatic-blue opacity-80 h-1"></div>
+        <div className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h3 className="text-sm font-bold text-pubmatic-navy mb-3 flex items-center gap-2">
+                <Target size={16} className="text-pubmatic-teal" />
+                Purpose
+              </h3>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Automate the validation of mobile applications during the publisher onboarding process. This tool crawls Google Play and the Apple App Store to identify the developer, discover all apps under their portfolio, extract developer websites, and validate <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">app-ads.txt</code> compliance against IAB standards. It ensures every app has proper supply path transparency before integration.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-pubmatic-navy mb-3 flex items-center gap-2">
+                <ListOrdered size={16} className="text-pubmatic-teal" />
+                How to Use
+              </h3>
+              <ol className="text-sm text-gray-600 leading-relaxed space-y-2 list-decimal list-inside">
+                <li><strong>Enter Input</strong> — Paste a Store URL, Android Bundle ID, or iOS App ID into the search field.</li>
+                <li><strong>Analyze</strong> — Click <em>Analyze</em> to crawl the developer profile and discover all associated apps.</li>
+                <li><strong>Review Results</strong> — Inspect each app's metadata, developer website, and computed <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">app-ads.txt</code> URL.</li>
+                <li><strong>Check Compliance</strong> — Verify ads.txt status (Success / Failed) and review developer address if available.</li>
+                <li><strong>Generate Outreach</strong> — Use the email generator to draft onboarding communication with auto-populated app details.</li>
+              </ol>
+            </div>
+          </div>
         </div>
       </div>
 

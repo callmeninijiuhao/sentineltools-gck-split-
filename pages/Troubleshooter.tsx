@@ -7,13 +7,16 @@ import {
     ArrowRight,
     Building2,
     Database,
-    ShieldAlert
+    ShieldAlert,
+    Target,
+    ListOrdered,
+    Crosshair
 } from 'lucide-react';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
 import { fetchSellersJson, searchBSellers, SellerResult } from '../services/sellerService';
 
-export const Troubleshooter: React.FC = () => {
+export const SellerDomainShooter: React.FC = () => {
     // Inputs
     const [competitorDomain, setCompetitorDomain] = useState('');
     const [entityName, setEntityName] = useState('');
@@ -56,8 +59,38 @@ export const Troubleshooter: React.FC = () => {
             {/* Header Section */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-pubmatic-navy tracking-tight">Troubleshooter</h1>
-                    <p className="text-gray-500 mt-2">Tools for diagnosing and resolving supply path and inventory issues.</p>
+                    <h1 className="text-3xl font-bold text-pubmatic-navy tracking-tight">Seller Domain Shooter</h1>
+                    <p className="text-gray-500 mt-2">Search competitor sellers.json files to verify publisher presence and troubleshoot domain mismatches.</p>
+                </div>
+            </div>
+
+            {/* Info Card */}
+            <div className="bg-white rounded-xl shadow-card border border-pubmatic-border overflow-hidden">
+                <div className="p-1 bg-gradient-to-r from-pubmatic-blue via-pubmatic-teal to-pubmatic-blue opacity-80 h-1"></div>
+                <div className="p-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 className="text-sm font-bold text-pubmatic-navy mb-3 flex items-center gap-2">
+                                <Target size={16} className="text-pubmatic-teal" />
+                                Purpose
+                            </h3>
+                            <p className="text-sm text-gray-600 leading-relaxed">
+                                Quickly determine whether a specific publisher or developer entity is listed inside a competitor's <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">sellers.json</code> file. This helps troubleshoot domain mismatches, verify supply path transparency, and identify indirect inventory sources during onboarding or competitive analysis.
+                            </p>
+                        </div>
+                        <div>
+                            <h3 className="text-sm font-bold text-pubmatic-navy mb-3 flex items-center gap-2">
+                                <ListOrdered size={16} className="text-pubmatic-teal" />
+                                How to Use
+                            </h3>
+                            <ol className="text-sm text-gray-600 leading-relaxed space-y-2 list-decimal list-inside">
+                                <li><strong>Enter Competitor Domain</strong> — Input the competitor's root domain (e.g., <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">inmobi.com</code>).</li>
+                                <li><strong>Enter Entity Name</strong> — Type the publisher or developer name you want to search for (e.g., <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">Learnings</code>).</li>
+                                <li><strong>Shoot & Analyze</strong> — The tool fetches the competitor's <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">sellers.json</code> and searches for matching entries.</li>
+                                <li><strong>Review Results</strong> — Inspect seller IDs, names, domains, and seller types to understand the relationship.</li>
+                            </ol>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -68,8 +101,8 @@ export const Troubleshooter: React.FC = () => {
                     <div className="bg-white rounded-xl shadow-card border border-pubmatic-border overflow-hidden">
                         <div className="border-b border-gray-100 bg-gray-50/50 px-6 py-4 flex justify-between items-center">
                             <h3 className="font-bold text-pubmatic-navy flex items-center gap-2">
-                                <ShieldAlert size={18} className="text-pubmatic-teal" />
-                                Seller Domain Shooter
+                                <Crosshair size={18} className="text-pubmatic-teal" />
+                                Shoot Analysis
                             </h3>
 
                         </div>
