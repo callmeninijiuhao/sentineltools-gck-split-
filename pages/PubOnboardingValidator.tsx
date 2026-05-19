@@ -22,7 +22,6 @@ import {
   ListOrdered,
   ShieldCheck
 } from 'lucide-react';
-import { FeedbackButton } from '../components/FeedbackButton';
 
 interface EmailVariables {
   sdkName: string;
@@ -241,8 +240,6 @@ Many thanks`;
           )}
         </div>
       </div>
-
-      <FeedbackButton />
 
       {/* Results Section */}
       {result && loadingState === 'complete' && (
