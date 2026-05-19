@@ -16,72 +16,66 @@ const PROXY_STRATEGIES = [
     }
 ];
 
-// Helper to simulate server processing time / network jitter
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
 /**
  * Fetches text content from a URL using a rotating list of CORS proxies.
- * Includes jitter to avoid rate limiting.
  */
 export const fetchTextWithFallback = async (targetUrl: string): Promise<string> => {
+    const fetchWithTimeout = (url: string, timeoutMs: number) => {
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), timeoutMs);
+        return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(id));
+    };
+
     // 1. Try Direct Fetch First (Fastest, avoids proxy issues if server allows CORS)
     try {
-        const directResponse = await fetch(targetUrl, { method: 'GET' });
+        const directResponse = await fetchWithTimeout(targetUrl, 8000);
         if (directResponse.ok) {
             const text = await directResponse.text();
-            if (text && text.length >= 50) return text;
+            if (text && text.length >= 10) return text;
         }
     } catch (e) {
         // console.log(`Direct fetch failed for ${targetUrl}`);
     }
 
-    // 2. Try Custom Backend Proxy (Most Reliable)
+    // 2. Try Custom Backend Proxy (Most Reliable) — short timeout so a dead server doesn't hang us
     // We assume the proxy is running on port 3001 of the SAME hostname we are currently on
     try {
         const hostname = window.location.hostname;
         const proxyUrl = `http://${hostname}:3001/proxy?url=${encodeURIComponent(targetUrl)}`;
 
-        const response = await fetch(proxyUrl);
+        const response = await fetchWithTimeout(proxyUrl, 2000);
         if (response.ok) {
             const text = await response.text();
-            if (text && text.length >= 50) return text;
+            if (text && text.length >= 10) return text;
         }
     } catch (e) {
-        console.warn('Custom proxy failed (is port 3001 open?)', e);
+        // console.warn('Custom proxy failed (is port 3001 open?)', e);
     }
 
-    // 3. Fallback to Public Proxies (Last Resort)
-    let lastError: Error | null = null;
-    const shuffledProxies = [...PROXY_STRATEGIES].sort(() => Math.random() - 0.5); // Randomize order
-
-    for (const strategy of shuffledProxies) {
-        try {
-            // Reduced jitter for faster fallback when direct fetch fails
-            await delay(50 + Math.random() * 150);
-            const proxyUrl = strategy.getUrl(targetUrl);
-
-            // Add Origin header to satisfy some proxies that check it
-            const response = await fetch(proxyUrl);
-
-            if (!response.ok) {
-                // Special handling for 403/429
-                if (response.status === 403 || response.status === 429) {
-                    console.warn(`Proxy ${strategy.name} blocked request (Status ${response.status})`);
-                    continue;
+    // 3. Fallback to Public Proxies (Parallel for speed)
+    const proxyPromises = PROXY_STRATEGIES.map(strategy => 
+        fetch(strategy.getUrl(targetUrl))
+            .then(async response => {
+                if (!response.ok) {
+                    if (response.status === 403 || response.status === 429) {
+                        console.warn(`Proxy ${strategy.name} blocked request (Status ${response.status})`);
+                        throw new Error(`Blocked (${response.status})`);
+                    }
+                    throw new Error(`Status ${response.status}`);
                 }
-                throw new Error(`Status ${response.status}`);
-            }
+                const text = await response.text();
+                if (!text || text.length < 10) {
+                    throw new Error('Empty or too short response');
+                }
+                return text;
+            })
+    );
 
-            const text = await response.text();
-            if (!text || text.length < 50) {
-                throw new Error('Empty or too short response');
-            }
-
-            return text;
-        } catch (error: any) {
-            console.warn(`Proxy ${strategy.name} failed for ${targetUrl}:`, error.message);
-            lastError = error;
-        }
+    try {
+        const text = await Promise.any(proxyPromises);
+        return text;
+    } catch {
+        // All proxies failed
     }
 
     throw new Error(`Failed to fetch content from ${targetUrl} after trying direct access and multiple proxies.`);
@@ -451,12 +445,35 @@ export const analyzeUrl = async (rawInput: string): Promise<CrawlerResult> => {
         }));
     }
 
+    // Fallback for Google Play: if very few apps were found on the dev page,
+    // the store may be using lazy-loading. Try a pub: search to expand the list.
+    if (isGooglePlay && uniqueAppUrls.size <= 12 && developerName) {
+        try {
+            const searchUrl = `https://play.google.com/store/search?q=pub:${encodeURIComponent(developerName)}&c=apps`;
+            const searchDoc = await fetchPage(searchUrl);
+            extractAppsFromDoc(searchDoc, searchUrl);
+            console.log(`Expanded app list via pub: search to ${uniqueAppUrls.size} apps.`);
+        } catch (e) {
+            console.warn('Pub search fallback failed:', e);
+        }
+    }
+
     const appUrlsToProcess = Array.from(uniqueAppUrls);
     console.log(`Total apps found: ${appUrlsToProcess.length}`);
 
     // --- Step 4: Process Apps in Batches ---
-    // Increased concurrency from 5 to 8 for faster processing
-    const processedApps = await processInBatches(appUrlsToProcess, 8, async (storeUrl) => {
+    // Cache ads.txt results per developer website to avoid redundant checks
+    const adsTxtCache = new Map<string, Promise<{ status: 'success' | 'failed', code?: number, url: string }>>();
+    const getCachedAdsTxt = (websiteUrl: string) => {
+        if (!websiteUrl) return Promise.resolve({ status: 'failed' as const, code: 400, url: '' });
+        if (adsTxtCache.has(websiteUrl)) return adsTxtCache.get(websiteUrl)!;
+        const promise = checkAdsTxt(websiteUrl);
+        adsTxtCache.set(websiteUrl, promise);
+        return promise;
+    };
+
+    // Increased concurrency for faster processing
+    const processedApps = await processInBatches(appUrlsToProcess, 20, async (storeUrl) => {
         try {
             const appDoc = await fetchPage(storeUrl);
 
@@ -553,7 +570,7 @@ export const analyzeUrl = async (rawInput: string): Promise<CrawlerResult> => {
                 }
             }
 
-            const adsResult = await checkAdsTxt(developerWebsite);
+            const adsResult = await getCachedAdsTxt(developerWebsite);
 
             return {
                 appName,

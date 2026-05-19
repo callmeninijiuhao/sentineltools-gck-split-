@@ -182,7 +182,7 @@ Many thanks`;
                 <li><strong>Analyze</strong> — Click <em>Analyze</em> to crawl the developer profile and discover all associated apps.</li>
                 <li><strong>Review Results</strong> — Inspect each app's metadata, developer website, and computed <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">app-ads.txt</code> URL.</li>
                 <li><strong>Check Compliance</strong> — Verify ads.txt status (Success / Failed) and review developer address if available.</li>
-                <li><strong>Generate Outreach</strong> — Use the email generator to draft onboarding communication with auto-populated app details.</li>
+                <li><strong>Generate IQ Outreach</strong> — Use the email generator to draft onboarding communication with auto-populated app details.</li>
               </ol>
             </div>
           </div>
@@ -215,6 +215,10 @@ Many thanks`;
                </Button>
             </div>
           </form>
+          <p className="text-xs font-bold text-amber-700 mt-3 flex items-center bg-amber-50 border border-amber-100 px-3 py-1.5 rounded-md w-fit">
+            <Info size={12} className="mr-1.5 shrink-0 text-amber-600" />
+            Scraping may take a moment — please be patient. Performance improvements are underway.
+          </p>
 
           {/* Progress Indicator */}
           {(loadingState === 'analyzing_input' || loadingState === 'crawling_dev_page' || loadingState === 'validating_ads_txt') && (
